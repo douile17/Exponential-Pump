@@ -10,4 +10,5 @@
 2.  Connectez un multimètre ou un oscilloscope à la broche 9 PWM pour vérifier la tension.
 3.  Si vous voulez une sortie analogique pure (sans fluctuations du PWM), ajoutez un filtre RC (par exemple, résistance 1 kΩ et condensateur 10 µF).
 
-![alt text](electrical.png)
+![](electrical.png)
+![](graph.png)

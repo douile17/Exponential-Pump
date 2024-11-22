@@ -1,35 +1,114 @@
-const int analogPin = 9; // Broche PWM
-const unsigned long duration = 5 * 60 * 60 * 1000; // 5 heures en millisecondes
-const unsigned long interval = 1000; // Intervalle de mise à jour en ms (1 seconde)
-unsigned long startTime;
+#include <Indio.h>
+#include <UC1701.h>
+
+// Initialiser l'écran UC1701
+static UC1701 lcd;
+
+// Configuration des broches pour les boutons de façade
+const int startButtonPin = 25; // Bouton A (Start)
+const int resetButtonPin = 23; // Bouton B (Reset)
+const int channel = 1;        // CH1 OUT (Canal 1 correspond à D22)
+const unsigned long duration = 1 * 60 * 1000; // Durée totale : 1 minute en millisecondes
+const unsigned long interval = 100; // Intervalle de mise à jour : 100 ms
+
+// Variables globales
+unsigned long startTime = 0;
+bool isRunning = false;          // Indique si la séquence est en cours
+float lastVoltage = 0.0;         // Dernière valeur affichée
 
 void setup() {
-  pinMode(analogPin, OUTPUT);
-  startTime = millis(); // Démarrer le chronomètre
+  // Initialiser les broches pour les boutons de façade
+  pinMode(startButtonPin, INPUT_PULLUP); // Configurer Bouton A en entrée avec pull-up
+  pinMode(resetButtonPin, INPUT_PULLUP); // Configurer Bouton B en entrée avec pull-up
+
+  // Initialiser la communication série
+  Serial.begin(9600);
+
+  // Initialiser l'écran UC1701
+  lcd.begin();
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Expo Voltage");
+
+  // Initialiser la bibliothèque Indio avec une résolution de 16 bits
+  Indio.begin(16);
+
+  // Configurer CH1 OUT pour fonctionner en mode 10V (0-10V)
+  Indio.analogWriteMode(channel, V10);
+
+  // Réinitialiser la tension au démarrage
+  resetSequence();
 }
 
 void loop() {
-  unsigned long currentTime = millis();
-  unsigned long elapsedTime = currentTime - startTime;
-
-  // Vérifier si la durée de 5 heures est atteinte
-  if (elapsedTime >= duration) {
-    analogWrite(analogPin, 255); // Fixer à la tension maximale
-    return;
+  // Vérifier l'état des boutons
+  if (digitalRead(startButtonPin) == LOW && !isRunning) { // Bouton A (Start)
+    startSequence();
   }
 
-  // Normaliser le temps (0 à 5 heures = 0.0 à 5.0)
-  float timeInHours = float(elapsedTime) / (60 * 60 * 1000); // Temps en heures (0 à 5)
+  if (digitalRead(resetButtonPin) == LOW) { // Bouton B (Reset)
+    resetSequence();
+  }
 
-  // Calculer la tension exponentielle
-  float expValue = exp(timeInHours) - 1; // Fonction exponentielle décalée
-  float maxExpValue = exp(5) - 1; // Maximum pour 5 heures
-  float voltageFraction = expValue / maxExpValue; // Normaliser entre 0 et 1
+  // Si la séquence est en cours, continuer à générer la courbe exponentielle
+  if (isRunning) {
+    unsigned long currentTime = millis();
+    unsigned long elapsedTime = currentTime - startTime;
 
-  int pwmValue = int(voltageFraction * 255); // Convertir en échelle PWM (0-255)
+    if (elapsedTime >= duration) {
+      // Fin de la séquence, fixer à 10V
+      Indio.analogWrite(channel, 10.0, false);
+      displayVoltage(10.0);
+      isRunning = false; // Arrêter la séquence
+    } else {
+      // Calculer et afficher la tension exponentielle
+      float timeFraction = float(elapsedTime) / duration;
+      float adjustedExp = exp(5 * timeFraction) - 1;
+      float maxExpValue = exp(5) - 1;
+      float voltageFraction = adjustedExp / maxExpValue;
+      float voltage = voltageFraction * 10.0;
 
-  // Sortir la valeur PWM
-  analogWrite(analogPin, pwmValue);
+      // Sortie et affichage de la tension
+      Indio.analogWrite(channel, voltage, false);
+      displayVoltage(voltage);
+    }
 
-  delay(interval); // Attendre avant la prochaine mise à jour
+    delay(interval); // Pause avant la prochaine mise à jour
+  }
+}
+
+// Fonction pour lancer la séquence
+void startSequence() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Starting...");
+  delay(500); // Pause visuelle
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Expo Voltage");
+  startTime = millis(); // Démarrer la séquence
+  isRunning = true;
+}
+
+// Fonction pour réinitialiser la séquence
+void resetSequence() {
+  Indio.analogWrite(channel, 0.0, false); // Réinitialiser la tension à 0V
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Reset Complete");
+  lcd.setCursor(0, 16);
+  lcd.print("Voltage: 0.00 V");
+  isRunning = false; // Arrêter la séquence
+}
+
+// Fonction pour afficher la tension
+void displayVoltage(float voltage) {
+  lcd.setCursor(0, 16);
+  lcd.print("Voltage:       ");
+  lcd.setCursor(0, 16);
+  lcd.print("Voltage:");
+  lcd.setCursor(64, 16);
+  lcd.print("      ");
+  lcd.setCursor(64, 16);
+  lcd.print(String(voltage, 2) + " V");
 }

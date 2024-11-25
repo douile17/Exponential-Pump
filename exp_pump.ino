@@ -8,7 +8,7 @@ static UC1701 lcd;
 const int startButtonPin = 25; // Bouton A (Start)
 const int resetButtonPin = 23; // Bouton B (Reset)
 const int channel = 1;        // CH1 OUT (Canal 1 correspond à D22)
-const unsigned long duration = 1 * 60 * 1000; // Durée totale : 1 minute en millisecondes
+const unsigned long duration = 1 * 60 * 1000; // Durée totale : 1 minute en millisecondes // 
 const unsigned long interval = 100; // Intervalle de mise à jour : 100 ms
 
 // Variables globales

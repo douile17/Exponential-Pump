@@ -1,6 +1,2 @@
 
-
-
-
-![](electrical.png)
 ![](graph.png)

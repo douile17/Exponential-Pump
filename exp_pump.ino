@@ -1,3 +1,25 @@
+/*
+ * Project: Exponential Pump
+ * Author: Andrew ZICLER
+ * Year: 2024
+ *
+ * Description:
+ * This code controls a Watson Marlow pump based on an exponential function 
+ * using an Industruino. It is designed to provide precise control in applications 
+ * requiring dynamic flow adjustments.
+ *
+ * License:
+ * This project is licensed under the MIT License. You are free to use, modify, 
+ * and distribute it, as long as this original notice is retained.
+ *
+ * MIT License:
+ * The software is provided "as is", without warranty of any kind, express or implied, 
+ * including but not limited to the warranties of merchantability, fitness for a particular purpose, 
+ * and non-infringement. In no event shall the authors or copyright holders be liable 
+ * for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, 
+ * arising from, out of, or in connection with the software or the use or other dealings in the software.
+ */
+
 #include <Indio.h>
 #include <UC1701.h>
 

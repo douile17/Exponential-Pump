@@ -38,7 +38,7 @@ Designed for experimental setups requiring precise and dynamic flow control.
 
 To change the duration of the exponential voltage ramp, modify the following line in the code:
 ---
-## wirering
+## Wirering
 
 [INOFLUID Pump]
    - Signal input  ---> Channel CH1 OUT (mapped to D22 via Indio module)

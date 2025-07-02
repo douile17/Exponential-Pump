@@ -1,33 +1,44 @@
-# Exponential Pump Control 
+# Exponential Pump Control
+
+**Author**: Andrew ZICLER  
+**Year**: 2024  
 
 ## Description
 
-This project controls a INOFLUID pump using an exponential voltage curve over time.  
+This project controls an **INOFLUID** pump using an exponential voltage curve over time.  
 It runs on an **Industruino** and outputs a 0–10V signal via the Indio module to dynamically regulate the pump flow rate.
 
 The system allows:
 - **Start/reset control** via physical buttons (A and B)
-- **Exponential ramp** over 1 minute (configurable)
+- **Exponential ramp** from 0 to 10V
 - **Live voltage display** on a UC1701 LCD screen
 
 Designed for experimental setups requiring precise and dynamic flow control.
+
+---
 
 ## Hardware Requirements
 
 - Industruino with Indio module  
 - UC1701-compatible LCD display  
-- INOFLUID pump (or compatible 0–10V-controlled device)  
-- Two push buttons (Start and Reset)  
+- INOFLUID pump (or any 0–10V-controlled device)  
+- Two push buttons (Start and Reset)
 
-## How It Works
+---
 
-- Press **Start** (Button A): Begins an exponential voltage increase from 0 to 10V over 1 minute.
+## Usage
+
+- Press **Start** (Button A): Begins an exponential voltage increase from 0 to 10V over a defined duration.
 - Press **Reset** (Button B): Resets the voltage output to 0V.
-- The voltage is updated every 100 ms and displayed in real-time.
+- Voltage is updated every 100 ms and displayed in real-time.
 
-## License
+---
 
-This project is licensed under the MIT License.  
-See the code comments for full license terms.
+## Adjusting the Duration
+
+To change the duration of the exponential voltage ramp, modify the following line in the code:
+
+```cpp
+const unsigned long duration = 1 * 60 * 1000; // 1 minute in milliseconds
 
 ![](graph.png)

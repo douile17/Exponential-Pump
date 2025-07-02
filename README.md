@@ -1,7 +1,4 @@
-# Exponential Pump Control
-
-**Author**: Andrew ZICLER  
-**Year**: 2024  
+# Exponential Pump Control 
 
 ## Description
 

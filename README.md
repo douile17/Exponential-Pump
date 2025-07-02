@@ -34,6 +34,7 @@ Designed for experimental setups requiring precise and dynamic flow control.
 ## Adjusting the Duration
 
 To change the duration of the exponential voltage ramp, modify the following line in the code:
+const unsigned long duration = 1 * 60 * 1000; // 1 minute in milliseconds
 ---
 ## Wirering
 
@@ -42,8 +43,5 @@ To change the duration of the exponential voltage ramp, modify the following lin
    - Controlled by a 0–10V analog output using:
        Indio.analogWrite(channel, voltage, false);
 ---
-
-## Change duration
-const unsigned long duration = 1 * 60 * 1000; // 1 minute in milliseconds
 
 ![](graph.png)

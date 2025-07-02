@@ -46,7 +46,5 @@ To change the duration of the exponential voltage ramp, modify the following lin
        Indio.analogWrite(channel, voltage, false);
 
 const unsigned long duration = 1 * 60 * 1000; // 1 minute in milliseconds
-```cpp
-
 
 ![](graph.png)

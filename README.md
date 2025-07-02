@@ -1,8 +1,5 @@
 # Exponential Pump Control
 
-**Author**: Andrew ZICLER  
-**Year**: 2024  
-
 ## Description
 
 This project controls an **INOFLUID** pump using an exponential voltage curve over time.  

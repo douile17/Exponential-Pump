@@ -44,7 +44,9 @@ To change the duration of the exponential voltage ramp, modify the following lin
    - Signal input  ---> Channel CH1 OUT (mapped to D22 via Indio module)
    - Controlled by a 0–10V analog output using:
        Indio.analogWrite(channel, voltage, false);
+---
 
+## Change duration
 const unsigned long duration = 1 * 60 * 1000; // 1 minute in milliseconds
 
 ![](graph.png)

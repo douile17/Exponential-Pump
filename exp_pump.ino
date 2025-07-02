@@ -4,7 +4,7 @@
  * Year: 2024
  *
  * Description:
- * This code controls a Watson Marlow pump based on an exponential function 
+ * This code controls an INOFLUID pump based on an exponential function 
  * using an Industruino. It is designed to provide precise control in applications 
  * requiring dynamic flow adjustments.
  *

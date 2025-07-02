@@ -16,10 +16,8 @@ Designed for experimental setups requiring precise and dynamic flow control.
 
 ## Hardware Requirements
 
-- Industruino with Indio module  
-- UC1701-compatible LCD display  
+- Industruino with Indio module   
 - INOFLUID pump (or any 0–10V-controlled device)  
-- Two push buttons (Start and Reset)
 
 ---
 
